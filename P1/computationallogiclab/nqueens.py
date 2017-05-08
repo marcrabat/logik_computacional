@@ -2,26 +2,41 @@ import itertools
 import numpy as np
 import sys
 
+
 def nqueens(n, ready=False):
     '''
     This function uses the other functions implemented above and returns a CNF formula representing the n queens problem.
     '''
-    board=(np.array(range(int(n)*int(n)))+1).reshape(int(n),int(n))
-    a = createDiagonals(board)
-    print a
+    board=(np.array(range(int(n)*int(n)))+1).reshape(int(n),int(n)) 
+    
     print board
-    for i in range(0,len(board)):
-        print board[i,:]
 
     
     if ready:
         return conditions
 
+
+def nQueenProblem( n ):
+  queens = [0]*n
+  addQueen( 0, queens, n )
+  return queens
+ 
+def addQueen( x, queens, n ):
+  i = 0
+  while i < n and 0 == queens[n - 1]:
+    if safeToAdd( x, i, queens ):
+      queens[x] = [x,i]
+      addQueen( x + 1, queens, n )
+    i += 1
+ 
+def safeToAdd( x, y, queens ):
+  for i in range( x ):
+    if y == queens[i][1] or ( x - y ) == ( i - queens[i][1] ) or ( x + y )== ( i + queens[i][1] ):
+      return False
+  return True
     
 
-
-
-
+    
 def createDiagonals(board):
     ''' This function returns the diagonal elements for the chessboard 
 
@@ -52,7 +67,7 @@ def AtLeastOne(VariableList):
 
 
     '''
-
+    
 
 
 
@@ -74,8 +89,12 @@ def AtMostOne(VariableList):
 
 
 def main(n):
+    global cont
     ready=False
-    solution=nqueens(n,ready)
+    #solution=nqueens(n,ready)
+    n = int(n)
+    table = nQueenProblem(n)
+    print table
     if ready:
         text_file = open("nqueens_sol.cnf", "w")
         text_file.write(solution)
