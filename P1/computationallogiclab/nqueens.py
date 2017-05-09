@@ -3,19 +3,22 @@ import numpy as np
 import sys
 
 
-def nqueens(n, ready=False):
+def nqueens(n):
     '''
     This function uses the other functions implemented above and returns a CNF formula representing the n queens problem.
     '''
-    board=(np.array(range(int(n)*int(n)))+1).reshape(int(n),int(n)) 
-    
-    print board
+    board=(np.array(range(int(n)*int(n)))+1).reshape(int(n),int(n))
+    boardT = board.T
+    solution = " "
+    for i in range(0,n): #lineas
+        solution += writeCNF(board[i])
+    for i in range(0,n): #columnas
+        solution += writeCNF(boardT[i])
+    for diagonal in createDiagonals(board):
+        solution += writeCNF(diagonal)
+    return solution
 
-    
-    if ready:
-        return conditions
-
-
+"""
 def nQueenProblem( n ):
   queens = [0]*n
   addQueen( 0, queens, n )
@@ -33,7 +36,7 @@ def safeToAdd( x, y, queens ):
   for i in range( x ):
     if y == queens[i][1] or ( x - y ) == ( i - queens[i][1] ) or ( x + y )== ( i + queens[i][1] ):
       return False
-  return True
+  return True"""
     
 
     
@@ -56,21 +59,16 @@ def createDiagonals(board):
 
 
 
-def AtLeastOne(VariableList):
-    ''' This function models the uniqueness condition over the input list. 
-    ie, for a list of inputs [X1, X2, X3, X4...] Only one of the inputs can be true
-
-    Input: List of strings
-
-    Output:
-    String of formula modeling the uniqueness condition, output with () around the formula
-
+def writeCNF(VariableList):
+    '''
 
     '''
-    
-
-
-
+    n = len(VariableList)
+    res = " "
+    for i in range(0,n-1):
+        for j in range(1,n-i):
+            res += "-"+str(VariableList[i]) + "-" + str(VariableList[i+j]) +" 0\n"
+    return res                                                   
 
 def AtMostOne(VariableList):
 
@@ -90,15 +88,11 @@ def AtMostOne(VariableList):
 
 def main(n):
     global cont
-    ready=False
-    #solution=nqueens(n,ready)
     n = int(n)
-    table = nQueenProblem(n)
-    print table
-    if ready:
-        text_file = open("nqueens_sol.cnf", "w")
-        text_file.write(solution)
-        text_file.close()
+    solution=nqueens(n)
+    text_file = open("nqueens_sol.cnf", "w")
+    text_file.write(solution)
+    text_file.close()
 
 if __name__ == '__main__':
     kwargs = {}
