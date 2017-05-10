@@ -20,7 +20,11 @@ def nqueens(n):
         solution += writeCNF(board[i])
     for i in range(0,n): #columnas
         solution += writeCNF(boardT[i])
-    for diagonal in createDiagonals(board):
+    tmp = createDiagonals(boardT)
+    tmp.sort(key=len,reverse=True)
+    print boardT
+    print tmp
+    for diagonal in tmp:#createDiagonals(boardT):
         solution += writeCNF(diagonal)
     return solution
 
