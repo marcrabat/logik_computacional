@@ -8,9 +8,14 @@ def nqueens(n):
     '''
     This function uses the other functions implemented above and returns a CNF formula representing the n queens problem.
     '''
-    board=(np.array(range(int(n)*int(n)))+1).reshape(int(n),int(n))
-    boardT = board.T
     solution = " "
+    board=(np.array(range(int(n)*int(n)))+1).reshape(int(n),int(n))
+    for i in range(1,n+1):
+        for j in range(1,n+1):
+            solution += str(((i-1)*n)+j) + " "
+        solution += "0 \n"
+        
+    boardT = board.T
     for i in range(0,n): #lineas
         solution += writeCNF(board[i])
     for i in range(0,n): #columnas
@@ -93,7 +98,7 @@ def main(n):
     global cont
     n = int(n)
     solution=nqueens(n)
-    header = "p cnf " + str((n*n)) +" " + str(cont) + "\n"
+    header = "p cnf " + str((n*n)) +" " + str(cont+n) + "\n"
     formula = header + solution
     text_file = open("nqueens_sol.cnf", "w")
     text_file.write(formula)
