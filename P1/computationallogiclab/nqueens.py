@@ -2,6 +2,7 @@ import itertools
 import numpy as np
 import sys
 
+cont = 0
 
 def nqueens(n):
     '''
@@ -63,10 +64,12 @@ def writeCNF(VariableList):
     '''
 
     '''
+    global cont
     n = len(VariableList)
     res = " "
     for i in range(0,n-1):
         for j in range(1,n-i):
+            cont = cont +1
             res += "-"+str(VariableList[i]) + "-" + str(VariableList[i+j]) +" 0\n"
     return res                                                   
 
@@ -90,8 +93,10 @@ def main(n):
     global cont
     n = int(n)
     solution=nqueens(n)
+    header = "p cnf " + str((n*n)) +" " + str(cont) + "\n"
+    formula = header + solution
     text_file = open("nqueens_sol.cnf", "w")
-    text_file.write(solution)
+    text_file.write(formula)
     text_file.close()
 
 if __name__ == '__main__':
