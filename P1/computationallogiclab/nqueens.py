@@ -1,7 +1,11 @@
 import itertools
 import numpy as np
 import sys
-
+import timeit
+'''
+Arnau Guinart Filba - 172799
+Marc Rabat Pla - 172808
+'''
 cont = 0
 
 def nqueens(n):
@@ -76,8 +80,15 @@ def writeCNF(VariableList):
 def main(n):
     global cont
     n = int(n)
+    
+    start = timeit.default_timer()
+    
     solution=nqueens(n)
     header = "p cnf " + str((n*n)) +" " + str(cont+2*n) + "\n" #generating the header
+    
+    stop = timeit.default_timer()
+    print stop - start
+
     formula = header + solution
     text_file = open("nqueens_sol.cnf", "w")
     text_file.write(formula)
