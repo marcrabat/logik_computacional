@@ -18,26 +18,32 @@ def nqueens(n):
     solution = ""
     
     #updating solution with rows clauses
+    solution += "\nc rows clauses\n"
     for i in range(1,n+1):
         for j in range(1,n+1):
             solution += str(((i-1)*n)+j) + " "
         solution += "0 \n"
     
     #updating solution with columns clauses, to these, we iterate the matrix inversely
+    solution += "\nc cols clauses\n"
     for j in range(1,n+1):
         for i in range(1,n+1):
             solution += str(((i-1)*n)+j) + " "
         solution += "0\n"
-
+    
     #transposing matrix to compute columns clauses with writeCNF
     boardT = board.T
 
     #rows
+    solution += "\nc rows clauses\n"
     for i in range(0,n): 
         solution += writeCNF(board[i])
+    
     #columns
+    solution += "\nc cols clauses\n"
     for i in range(0,n): #columnas
         solution += writeCNF(boardT[i])
+    
     tmp = createDiagonals(boardT)
     tmp.sort(key=len,reverse=True)
 
@@ -48,6 +54,7 @@ def nqueens(n):
     '''
 
     #diagonals
+    solution += "\nc diagonal clauses\n"
     for diagonal in tmp:#createDiagonals(boardT):
         solution += writeCNF(diagonal)
     
