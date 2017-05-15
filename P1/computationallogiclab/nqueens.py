@@ -94,7 +94,7 @@ def main(n):
     header = "p cnf " + str((n*n)) +" " + str(cont+2*n) + "\n" #generating the header
     
     stop = timeit.default_timer()
-    print stop - start
+    print "executation time " + str(stop - start)+ "\n"
 
     formula = header + solution
     text_file = open("nqueens_sol.cnf", "w")
