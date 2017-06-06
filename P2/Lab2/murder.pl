@@ -20,7 +20,6 @@ fingerprints(daniel,candlestick).
 
 
 
-suspect(X,Y):-fingerprints(X,Y),object(Y).
 
 hat(carmen).
 hat(elisa).
@@ -29,7 +28,10 @@ hat(albert).
 nonantique(leadpipe).
 nonantique(candlestick).
 
-murder(X,Y):-suspect(X,Y),hat(X),nonantique(Y).
+
+suspect(X,Y):-fingerprints(X,Y),object(Y).
+
+murder(X,Y):-hat(X),nonantique(Y),suspect(X,Y),person(X).
 
 
 
